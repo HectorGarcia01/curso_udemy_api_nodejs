@@ -13,6 +13,7 @@ const getConnection = async () => {
   });
 
   await client.connect();
+  return client;
 };
 
 module.exports = getConnection;
