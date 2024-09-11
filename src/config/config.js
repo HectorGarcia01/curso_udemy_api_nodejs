@@ -7,5 +7,5 @@ module.exports = {
   dbPassword: process.env.PASSWORD_POSTGRES,
   dbHost: process.env.HOST_POSTGRES,
   dbName: process.env.DB_POSTGRES,
-  dbPort: process.env.PORT_POSTGRES
+  dbPort: process.env.PORT_DB
 };
