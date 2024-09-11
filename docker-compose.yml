@@ -24,7 +24,6 @@ services:
     image: mysql:5
     environment:
       - MYSQL_DATABASE=${BD_MYSQL}
-      - MYSQL_USER=${USER_MYSQL}
       - MYSQL_ROOT_PASSWORD=${PASSWORD_MYSQL}
       - MYSQL_PORT=3306
     ports:
