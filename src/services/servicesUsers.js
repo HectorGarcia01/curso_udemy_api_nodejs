@@ -1,5 +1,4 @@
 const { models } = require('../libs/sequelize');
-
 const getAllUsers = async (req, res) => {
   try {
     const response = await models.User.findAll();
@@ -8,6 +7,20 @@ const getAllUsers = async (req, res) => {
     res.status(500).send(error.message);
   }
 };
+
+const getUser = async (req, res) => {
+  try {
+    const user = await models.User.findByPk(req.params.id);
+
+    if (!user) {
+      return res.status(404).send({ message: "Usuario no encontrado!! "});
+    }
+
+    res.status(200).send(user);
+  } catch (error) {
+    res.status(500).send(error.message);
+  }
+}
 
 const createUser = async (req, res) => {
   try {
@@ -56,6 +69,7 @@ const deleteUser = async (req, res) => {
 
 module.exports = {
   getAllUsers,
+  getUser,
   createUser,
   updateUser,
   deleteUser
