@@ -1,4 +1,3 @@
-const Datatype = require('faker/lib/datatype');
 const { Model, DataTypes, Sequelize } = require('sequelize');
 
 const USER_TABLE = 'users';
