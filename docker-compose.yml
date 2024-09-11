@@ -4,9 +4,9 @@ services:
   postgres:
     image: postgres:13
     environment:
-      - POSTGRES_DB=${DB_POSTGRES}
-      - POSTGRES_USER=${USER_POSTGRES}
-      - POSTGRES_PASSWORD=${PASSWORD_POSTGRES}
+      - POSTGRES_DB=${DB_NAME}
+      - POSTGRES_USER=${USER_DB}
+      - POSTGRES_PASSWORD=${PASSWORD_DB}
     ports:
       - "5432:5432"
     volumes:
@@ -23,8 +23,8 @@ services:
   mysql:
     image: mysql:5
     environment:
-      - MYSQL_DATABASE=${BD_MYSQL}
-      - MYSQL_ROOT_PASSWORD=${PASSWORD_MYSQL}
+      - MYSQL_DATABASE=${BD_NAME}
+      - MYSQL_ROOT_PASSWORD=${PASSWORD_DB}
       - MYSQL_PORT=3306
     ports:
       - "3306:3306"
@@ -34,7 +34,7 @@ services:
   phpmyadmin:
     image: phpmyadmin/phpmyadmin
     environment:
-      - MYSQL_ROOT_PASSWORD=${PASSWORD_MYSQL}
+      - MYSQL_ROOT_PASSWORD=${PASSWORD_DB}
       - PMA_HOST=mysql
     ports:
       - "8080:80"
