@@ -30,15 +30,16 @@ const getProduct = async (req, res) => {
 
 const createNewProduct = async (req, res) => {
   try {
-    const body = req.body;
-    console.log(body);
+    const product = await models.Product.findOne({ where: { name: req.body.name }});
 
-    res.json({
-      ok: true,
-      data: body
-    });
+    if (product) {
+      return res.status(409).send({ message: "El producto ya existe!!" });
+    }
+
+    await models.Product.create(req.body);
+    res.status(200).send({ message: "Producto creado con éxito!!" });
   } catch (error) {
-    console.log(error);
+    res.status(500).send(error.message);
   }
 };
 
