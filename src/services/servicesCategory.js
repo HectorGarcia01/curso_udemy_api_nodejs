@@ -1,6 +1,6 @@
 const { models } = require('../libs/sequelize');
 
-const getAllCategory = async (req, res) => {
+const getAllCategories = async (req, res) => {
   try {
     const categories = await models.Category.findAll();
 
@@ -74,7 +74,7 @@ const deleteCategory = async (req, res) => {
 };
 
 module.exports = {
-  getAllCategory,
+  getAllCategories,
   getCategory,
   createNewCategory,
   updateCategory,
