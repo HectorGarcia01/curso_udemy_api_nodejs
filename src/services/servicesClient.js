@@ -43,6 +43,20 @@ const getClient = async (req, res) => {
 
 const createClient = async (req, res) => {
   try {
+    const { userIdFk } = req.body;
+    const [user, userClient] = await Promise.all([
+      models.User.findByPk(userIdFk),
+      models.Client.findOne({ where: { userIdFk } })
+    ]);
+
+    if (!user) {
+      return res.status(404).send({ message: "El usuario no existe." });
+    }
+
+    if (userClient) {
+      return res.status(400).send({ message: "El usuario ya tiene un cliente asignado, intenta con otro." });
+    }
+
     await models.Client.create(req.body);
     res.status(201).send({ message: "Cliente creado con éxito!!" });
   } catch (error) {
@@ -52,10 +66,26 @@ const createClient = async (req, res) => {
 
 const updateClient = async (req, res) => {
   try {
+    const { userIdFk } = req.body;
     const client = await models.Client.findByPk(req.params.id);
 
     if (!client) {
       return res.status(404).send({ message: "Cliente no encontrado." });
+    }
+
+    if (userIdFk) {
+      const [user, userClient] = await Promise.all([
+        models.User.findByPk(userIdFk),
+        userIdFk !== client.userIdFk ? models.Client.findOne({ where: { userIdFk } }) : null
+      ]);
+
+      if (!user) {
+        return res.status(404).send({ message: "El usuario no existe." });
+      }
+
+      if (userClient) {
+        return res.status(400).send({ message: "El usuario ya tiene un cliente asignado, intenta con otro." });
+      }
     }
 
     await client.update(req.body);
@@ -67,7 +97,8 @@ const updateClient = async (req, res) => {
 
 const deleteClient = async (req, res) => {
   try {
-    const client = await models.Client.findOne({ where: { id: req.params.id } });
+    const { id } = req.params;
+    const client = await models.Client.findOne({ where: { id } });
 
     if (!client) {
       return res.status(404).send({ message: "Cliente no encontrado." });
