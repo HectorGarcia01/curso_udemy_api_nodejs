@@ -21,17 +21,28 @@ const UserSchema = {
     type: DataTypes.STRING
   },
 
+  role: {
+    allowNull: false,
+    type: DataTypes.STRING,
+    defaultValue: 'client'
+  },
+
   createdAt: {
     allowNull: false,
     type: DataTypes.DATE,
-    field: 'create_at',
-    defaultVaule: Sequelize.NOW
+    defaultValue: Sequelize.NOW
+  },
+
+  updatedAt: {
+    allowNull: false,
+    type: DataTypes.DATE,
+    defaultValue: Sequelize.NOW
   }
 };
 
 class User extends Model {
-  static associate() {
-
+  static associate(models) {
+    this.hasOne(models.Client, { as: 'Client', foreignKey: 'userIdFk'});
   }
 
   static config(sequelize) {
@@ -39,7 +50,7 @@ class User extends Model {
       sequelize,
       tableName: USER_TABLE,
       modelName: 'User',
-      timeestamps: false
+      timeestamps: true
     }
   }
 };

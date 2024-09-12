@@ -24,8 +24,13 @@ const ProductSchema = {
   createdAt: {
     allowNull: false,
     type: DataTypes.DATE,
-    field: 'create_at',
-    defaultVaule: Sequelize.NOW
+    defaultValue: Sequelize.NOW
+  },
+
+  updatedAt: {
+    allowNull: false,
+    type: DataTypes.DATE,
+    defaultValue: Sequelize.NOW
   }
 };
 
@@ -39,7 +44,7 @@ class Product extends Model {
       sequelize,
       tableName: PRODUCT_TABLE,
       modelName: 'Product',
-      timeestamps: false
+      timeestamps: true
     }
   }
 };

@@ -7,6 +7,7 @@ const apiRouter = (app) => {
 
   router.use('/products', require('../routes/products.routes'));
   router.use('/users', require('../routes/users.routes'));
+  router.use('/clients', require('../routes/client.routes'));
 };
 
 module.exports = apiRouter;

@@ -8,12 +8,16 @@ const schemaUserCreate = Joi.object({
   password: Joi.string()
     .min(8)
     .max(25)
-    .required()
+    .required(),
+  role: Joi.string()
+    .min(5)
 });
 
 const schemaUserUpdate = Joi.object({
   password: Joi.string()
-    .min(8)
+    .min(8),
+  role: Joi.string()
+    .min(5)
 });
 
 const schemaGetUser = Joi.object({
