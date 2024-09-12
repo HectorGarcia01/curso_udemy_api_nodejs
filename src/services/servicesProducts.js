@@ -1,23 +1,16 @@
-const faker = require('faker');
-const boom = require('@hapi/boom');
+const { models } = require('../libs/sequelize');
 
 const getAllProducts = async (req, res) => {
   try {
-    const products = [];
-    const { size } = req.query;
-    const limit = size || 5;
+    const products = await models.Product.findAll();
 
-    for (let index = 0; index < limit; index++) {
-      products.push({
-        name: faker.commerce.productName(),
-        price: parseInt(faker.commerce.price(), 10),
-        image: faker.image.imageUrl()
-      })
+    if (products.length === 0) {
+      return res.status(404).send({ message: "No hay registros de productos." });
     }
 
-    res.json(products);
+    res.status(200).send(products);
   } catch (error) {
-    console.log(error);
+    res.status(500).send(error.message);
   }
 };
 
