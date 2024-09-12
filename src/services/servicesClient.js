@@ -2,7 +2,13 @@ const { models } = require('../libs/sequelize');
 
 const getAllClients = async (req, res) => {
   try {
-    const clients = await models.Client.findAll();
+    const clients = await models.Client.findAll({
+      include: {
+        model: models.User,
+        as: 'User',
+        attributes: ['id', 'email', 'role']
+      }
+    });
 
     if (clients.length === 0) {
       return res.status(404).send({ message: "No hay registros de clientes." });
@@ -16,10 +22,17 @@ const getAllClients = async (req, res) => {
 
 const getClient = async (req, res) => {
   try {
-    const client = await models.Client.findByPk(req.params.id);
+    const client = await models.Client.findByPk(req.params.id,
+      {
+        include: {
+          model: models.User,
+          as: 'User',
+          attributes: ['id', 'email', 'role']
+        }
+      });
 
     if (!client) {
-      return res.status(404).send({ message: "Cliente no encontrado!! " });
+      return res.status(404).send({ message: "Cliente no encontrado!!" });
     }
 
     res.status(200).send(client);
