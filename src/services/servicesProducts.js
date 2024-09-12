@@ -16,15 +16,15 @@ const getAllProducts = async (req, res) => {
 
 const getProduct = async (req, res) => {
   try {
-    const { id } = req.params;
-    res.json({
-      'id': id,
-      'name': "Teclado",
-      'Precio': 30000,
-      'Marca': 'XTECH'
-    });
+    const product = await models.Product.findByPk(req.params.id);
+
+    if (!product) {
+      return res.status(404).send({ message: "Producto no encontrado!!" });
+    }
+
+    res.status(200).send(product);
   } catch (error) {
-    console.log(error);
+    res.status(500).send(error.message);
   }
 };
 
