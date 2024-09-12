@@ -39,8 +39,7 @@ const ClientSchema = {
     defaultValue: Sequelize.NOW
   },
 
-  userId: {
-    field: 'user_idFk',
+  userIdFk: {
     allowNull: false,
     type: DataTypes.INTEGER,
     references: {
@@ -55,7 +54,7 @@ const ClientSchema = {
 
 class Client extends Model {
   static associate(models) {
-    this.belongsTo(models.User, { as: 'users' });
+    this.belongsTo(models.User, { as: 'User', foreignKey:'userIdFk' });
   }
 
   static config(sequelize) {
