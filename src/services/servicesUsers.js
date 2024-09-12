@@ -4,7 +4,7 @@ const getAllUsers = async (req, res) => {
   try {
     const users = await models.User.findAll();
 
-    if (users) {
+    if (users.length === 0) {
       return res.status(404).send({ message: "No hay registros de usuarios." });
     }
 
