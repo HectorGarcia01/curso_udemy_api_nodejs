@@ -9,8 +9,8 @@ const schemaProductCreate = Joi.object({
   price: Joi.number()
     .min(10)
     .required(),
-  details: Joi.string()
-    .min(10)
+  categoryIdFk: Joi.number()
+    .integer()
     .required()
 });
 
@@ -21,8 +21,8 @@ const schemaProductUpdate = Joi.object({
     .max(10),
   price: Joi.number()
     .min(10),
-  details: Joi.string()
-    .min(10)
+  categoryIdFk: Joi.number()
+    .integer()
 });
 
 const schemaGetProduct = Joi.object({
