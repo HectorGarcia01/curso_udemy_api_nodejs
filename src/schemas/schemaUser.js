@@ -11,7 +11,6 @@ const schemaUserCreate = Joi.object({
     .required(),
   role: Joi.string()
     .min(5)
-    .required()
 });
 
 const schemaUserUpdate = Joi.object({
