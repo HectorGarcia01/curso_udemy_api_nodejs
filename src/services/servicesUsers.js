@@ -1,8 +1,14 @@
 const { models } = require('../libs/sequelize');
+
 const getAllUsers = async (req, res) => {
   try {
-    const response = await models.User.findAll();
-    res.status(200).send(response);
+    const users = await models.User.findAll();
+
+    if (users) {
+      return res.status(404).send({ message: "No hay registros de usuarios." });
+    }
+
+    res.status(200).send(users);
   } catch (error) {
     res.status(500).send(error.message);
   }
@@ -20,7 +26,7 @@ const getUser = async (req, res) => {
   } catch (error) {
     res.status(500).send(error.message);
   }
-}
+};
 
 const createUser = async (req, res) => {
   try {
