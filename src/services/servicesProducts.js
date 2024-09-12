@@ -60,14 +60,16 @@ const updateProduct = async (req, res) => {
 
 const deleteProduct = async (req, res) => {
   try {
-    const { id } = req.params;
+    const product = await models.Product.findByPk(req.params.id);
 
-    res.json({
-      message: "Deleted",
-      id
-    });
+    if (!product) {
+      return res.status(404).send({ message: "Producto no encontrado." });
+    }
+
+    await product.destroy();
+    res.status(200).send({ message: "Producto eliminado con éxito!!" });
   } catch (error) {
-    console.log(error);
+    res.status(500).send(error.message);
   }
 };
 
