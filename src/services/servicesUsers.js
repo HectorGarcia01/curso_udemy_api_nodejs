@@ -2,7 +2,13 @@ const { models } = require('../libs/sequelize');
 
 const getAllUsers = async (req, res) => {
   try {
-    const users = await models.User.findAll();
+    const users = await models.User.findAll({
+      include: {
+        model: models.Client,
+        as: 'Client',
+        attributes: ['id', 'name', 'lastname', 'phone']
+      }
+    });
 
     if (users.length === 0) {
       return res.status(404).send({ message: "No hay registros de usuarios." });
@@ -16,7 +22,15 @@ const getAllUsers = async (req, res) => {
 
 const getUser = async (req, res) => {
   try {
-    const user = await models.User.findByPk(req.params.id);
+    const user = await models.User.findByPk(req.params.id,
+      {
+        include: {
+          model: models.Client,
+          as: 'Client',
+          attributes: ['id', 'name', 'lastname', 'phone']
+        }
+      }
+    );
 
     if (!user) {
       return res.status(404).send({ message: "Usuario no encontrado!! "});
@@ -31,7 +45,7 @@ const getUser = async (req, res) => {
 const createUser = async (req, res) => {
   try {
     const user = await models.User.findOne({ where: { email: req.body.email } });
-    
+
     if (user) {
       return res.status(409).send({ message: "El usuario ya existe!!" });
     }
