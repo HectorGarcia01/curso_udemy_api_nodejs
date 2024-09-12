@@ -8,6 +8,9 @@ const schemaProductCreate = Joi.object({
     .required(),
   price: Joi.number()
     .min(10)
+    .required(),
+  details: Joi.string()
+    .min(10)
     .required()
 });
 
@@ -17,6 +20,8 @@ const schemaProductUpdate = Joi.object({
     .min(3)
     .max(10),
   price: Joi.number()
+    .min(10),
+  details: Joi.string()
     .min(10)
 });
 
@@ -30,4 +35,4 @@ module.exports = {
   schemaProductCreate,
   schemaProductUpdate,
   schemaGetProduct
-}
+};
