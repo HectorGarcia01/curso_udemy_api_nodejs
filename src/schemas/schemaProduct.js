@@ -21,8 +21,8 @@ const schemaProductUpdate = Joi.object({
 });
 
 const schemaGetProduct = Joi.object({
-  id: Joi.string()
-    .uuid()
+  id: Joi.number()
+    .integer()
     .required()
 })
 
