@@ -11,6 +11,9 @@ const schemaClientCreate = Joi.object({
     .required(),
   phone: Joi.string()
     .max(30)
+    .required(),
+  userIdFk: Joi.number()
+    .integer()
     .required()
 });
 
@@ -22,7 +25,9 @@ const schemaClientUpdate = Joi.object({
     .min(5)
     .max(30),
   phone: Joi.string()
-    .max(30)
+    .max(30),
+  userIdFk: Joi.number()
+    .integer()
 });
 
 const schemaGetClient = Joi.object({
