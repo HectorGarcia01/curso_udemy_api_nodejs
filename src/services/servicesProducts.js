@@ -2,7 +2,13 @@ const { models } = require('../libs/sequelize');
 
 const getAllProducts = async (req, res) => {
   try {
-    const products = await models.Product.findAll();
+    const products = await models.Product.findAll({
+      include: {
+        model: models.Category,
+        as: 'Category',
+        attributes: ['id', 'name', 'image']
+      }
+    });
 
     if (products.length === 0) {
       return res.status(404).send({ message: "No hay registros de productos." });
@@ -16,7 +22,14 @@ const getAllProducts = async (req, res) => {
 
 const getProduct = async (req, res) => {
   try {
-    const product = await models.Product.findByPk(req.params.id);
+    const { id } = req.params;
+    const product = await models.Product.findByPk(id, {
+      include: {
+        model: models.Category,
+        as: 'Category',
+        attributes: ['id', 'name', 'image']
+      }
+    });
 
     if (!product) {
       return res.status(404).send({ message: "Producto no encontrado!!" });
@@ -30,10 +43,18 @@ const getProduct = async (req, res) => {
 
 const createNewProduct = async (req, res) => {
   try {
-    const product = await models.Product.findOne({ where: { name: req.body.name }});
+    const { name, categoryIdFk } = req.body;
+    const [product, category] = await Promise.all([
+      models.Product.findOne({ where: { name } }),
+      models.Category.findByPk(categoryIdFk)
+    ]);
 
     if (product) {
       return res.status(409).send({ message: "El producto ya existe!!" });
+    }
+
+    if (!category) {
+      return res.status(404).send({ message: "La categoría no existe." });
     }
 
     await models.Product.create(req.body);
@@ -45,10 +66,19 @@ const createNewProduct = async (req, res) => {
 
 const updateProduct = async (req, res) => {
   try {
-    const product = await models.Product.findByPk(req.params.id);
+    const { id } = req.params;
+    const { categoryIdFk } = req.body;
+    const [product, category] = await Promise.all([
+      models.Product.findByPk(id),
+      models.Category.findByPk(categoryIdFk)
+    ]);
 
     if (!product) {
       return res.status(404).send({ message: "Producto no encontrado." });
+    }
+
+    if (!category) {
+      return res.status(404).send({ message: "La categoría no existe." });
     }
 
     await product.update(req.body);
@@ -60,7 +90,8 @@ const updateProduct = async (req, res) => {
 
 const deleteProduct = async (req, res) => {
   try {
-    const product = await models.Product.findByPk(req.params.id);
+    const { id } = req.params;
+    const product = await models.Product.findByPk(id);
 
     if (!product) {
       return res.status(404).send({ message: "Producto no encontrado." });
