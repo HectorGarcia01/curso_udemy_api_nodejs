@@ -22,7 +22,8 @@ const getAllUsers = async (req, res) => {
 
 const getUser = async (req, res) => {
   try {
-    const user = await models.User.findByPk(req.params.id,
+    const { id } = req.params;
+    const user = await models.User.findByPk(id,
       {
         include: {
           model: models.Client,
@@ -44,7 +45,8 @@ const getUser = async (req, res) => {
 
 const createUser = async (req, res) => {
   try {
-    const user = await models.User.findOne({ where: { email: req.body.email } });
+    const { email } = req.body;
+    const user = await models.User.findOne({ where: { email } });
 
     if (user) {
       return res.status(409).send({ message: "El usuario ya existe!!" });
@@ -59,7 +61,8 @@ const createUser = async (req, res) => {
 
 const updateUser = async (req, res) => {
   try {
-    const user = await models.User.findByPk(req.params.id);
+    const { id } = req.params;
+    const user = await models.User.findByPk(id);
 
     if (!user) {
       return res.status(404).send({ message: "Usuario no encontrado." });
@@ -74,7 +77,8 @@ const updateUser = async (req, res) => {
 
 const deleteUser = async (req, res) => {
   try {
-    const user = await models.User.findOne({ where: { id: req.params.id } });
+    const { id } = req.params;
+    const user = await models.User.findByPk(id);
 
     if (!user) {
       return res.status(404).send({ message: "Usuario no encontrado." });

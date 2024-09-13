@@ -22,7 +22,8 @@ const getAllClients = async (req, res) => {
 
 const getClient = async (req, res) => {
   try {
-    const client = await models.Client.findByPk(req.params.id,
+    const { id } = req.params;
+    const client = await models.Client.findByPk(id,
       {
         include: {
           model: models.User,
@@ -66,8 +67,9 @@ const createClient = async (req, res) => {
 
 const updateClient = async (req, res) => {
   try {
+    const { id } = req.params;
     const { userIdFk } = req.body;
-    const client = await models.Client.findByPk(req.params.id);
+    const client = await models.Client.findByPk(id);
 
     if (!client) {
       return res.status(404).send({ message: "Cliente no encontrado." });
