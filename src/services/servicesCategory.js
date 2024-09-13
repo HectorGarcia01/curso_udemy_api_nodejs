@@ -16,7 +16,8 @@ const getAllCategories = async (req, res) => {
 
 const getCategory = async (req, res) => {
   try {
-    const category = await models.Category.findByPk(req.params.id);
+    const { id } = req.params;
+    const category = await models.Category.findByPk(id);
 
     if (!category) {
       return res.status(404).send({ message: "Categoría no encontrada!!" });
@@ -30,7 +31,8 @@ const getCategory = async (req, res) => {
 
 const createNewCategory = async (req, res) => {
   try {
-    const category = await models.Category.findOne({ where: { name: req.body.name } });
+    const { name } = req.body;
+    const category = await models.Category.findOne({ where: { name } });
 
     if (category) {
       return res.status(409).send({ message: "La categoría ya existe!!" });
@@ -45,7 +47,8 @@ const createNewCategory = async (req, res) => {
 
 const updateCategory = async (req, res) => {
   try {
-    const category = await models.Category.findByPk(req.params.id);
+    const { id } = req.params;
+    const category = await models.Category.findByPk(id);
 
     if (!category) {
       return res.status(404).send({ message: "Categoría no encontrada." });
@@ -60,7 +63,8 @@ const updateCategory = async (req, res) => {
 
 const deleteCategory = async (req, res) => {
   try {
-    const category = await models.Category.findByPk(req.params.id);
+    const { id } = req.params;
+    const category = await models.Category.findByPk(id);
 
     if (!category) {
       return res.status(404).send({ message: "Categoría no encontrada." });
