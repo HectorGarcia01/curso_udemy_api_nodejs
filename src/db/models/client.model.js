@@ -63,7 +63,7 @@ class Client extends Model {
       sequelize,
       tableName: CLIENT_TABLE,
       modelName: 'Client',
-      timeestamps: true
+      timestamps: true
     }
   }
 };
